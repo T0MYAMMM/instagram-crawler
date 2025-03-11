@@ -294,10 +294,10 @@ class LoginMixin(PreLoginFlowMixin, PostLoginFlowMixin):
     app_id = "567067343352427"
     uuid = ""
     mid = ""
-    country = "US"
-    country_code = 1  # Phone code, default USA
-    locale = "en_US"
-    timezone_offset: int = -14400  # New York, GMT-4 in seconds
+    country = "ID"
+    country_code = 62  # Phone code, default USA
+    locale = "id_ID"
+    timezone_offset: int = 25200  # New York, GMT-4 in seconds
     ig_u_rur = ""  # e.g. CLN,49897488153,1666640702:01f7bdb93090f4f773516fc2cf1424178a58a2295b4c754090ba02cb0a834e2d1f731e20
     ig_www_claim = ""  # e.g. hmac.AR2uidim8es5kYgDiNxY0UG_ZhffFFSt8TGCV5eA1VYYsMNx
 
@@ -653,14 +653,14 @@ class LoginMixin(PreLoginFlowMixin, PostLoginFlowMixin):
         """
         self.device_settings = device or {
             "app_version": "269.0.0.18.75",
-            "android_version": 26,
-            "android_release": "8.0.0",
+            "android_version": 30,
+            "android_release": "11",
             "dpi": "480dpi",
-            "resolution": "1080x1920",
-            "manufacturer": "OnePlus",
-            "device": "devitron",
-            "model": "6T Dev",
-            "cpu": "qcom",
+            "resolution": "1080x2400",
+            "manufacturer": "Samsung",
+            "device": "a53x",
+            "model": "SM-A536E",
+            "cpu": "exynos1280",
             "version_code": "314665256",
         }
         self.settings["device_settings"] = self.device_settings

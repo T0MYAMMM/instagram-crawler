@@ -2,13 +2,20 @@ from kafka import KafkaProducer
 from kafka.errors import KafkaError
 from config.settings import KAFKA
 from .logger import printinfo
+import json
 
+def json_deserializer(data):
+    return json.loads(data.decode("utf-8"))
 
-def publish_kafka(topic, data: str):
+def json_serializer(data):
+    return json.dumps(data).encode("utf-8")
+
+def publish_kafka(topic, data):
     producer = None
     producer = KafkaProducer(
-        bootstrap_servers=KAFKA['default']['bootstrap_servers'])
-    future = producer.send(topic, data.encode())
+        bootstrap_servers=KAFKA['default']['bootstrap_servers'],
+        value_serializer=json_serializer)
+    future = producer.send(topic, data)
     try:
         record_metadata = future.get(timeout=10)
         printinfo('Topic: {};Partition: {};Offset: {}'.format(

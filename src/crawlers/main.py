@@ -13,8 +13,8 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-ACCOUNT_USERNAME = "portofolionyatom"
-ACCOUNT_PASSWORD = "641145fs"
+ACCOUNT_USERNAME = "xxyib.643"
+ACCOUNT_PASSWORD = "643@asem777"
 
 def login_user(
     USERNAME: str = ACCOUNT_USERNAME,
@@ -115,7 +115,45 @@ def crawl_hashtag(
         with open(f"{hashtag}_{fname_timestamp}.json", "w") as f:
             json.dump(raw, f, indent=4)
 
-    return hashtag_medias
+    return raw
+
+def crawl_reels(
+    hashtag: str,
+    amount: int = 1,
+    delay_range: List[int] = [1, 3],
+    session_json_path: str = "configs/session.json",
+    save_raw: bool = False,
+):
+    """
+    Crawl Instagram posts using a hashtag.
+    """
+    start_time = datetime.now()
+    cl = login_user(ACCOUNT_USERNAME, ACCOUNT_PASSWORD, delay_range, session_json_path)
+    hashtag_info = cl.hashtag_info(hashtag)
+    reels_medias = cl.hashtag_medias_reels_v1(hashtag, amount)
+    elapsed_time = datetime.now() - start_time
+
+    raw = {
+        "raw": {
+            "data": {
+                "info": hashtag_info,
+                "items": reels_medias,
+
+            },
+            "metadata": {
+                "crawltime": elapsed_time.total_seconds(),
+                "hashtag": hashtag, 
+                "url": cl.hashtag_medias_v1_url.format(name=hashtag),
+            }
+        }
+    }
+
+    if save_raw:
+        fname_timestamp = start_time.strftime("%Y-%m-%s_%H:%M:%S")
+        with open(f"{hashtag}_{fname_timestamp}.json", "w") as f:
+            json.dump(raw, f, indent=4)
+
+    return raw
 
 if __name__ == "__main__":
     #cl = login_user(ACCOUNT_USERNAME, ACCOUNT_PASSWORD, session_json_path="session.json")
@@ -124,8 +162,9 @@ if __name__ == "__main__":
     #hashtag_medias = cl.fbsearch_topserp('#nolimitindonesia')
     #hashtag_medias = cl.hashtag_medias_top('nolimitindonesia', amount=1)
     
-    hashtag_medias = crawl_hashtag('nolimitindonesia', amount=1, session_json_path="session.json", save_raw=True)
-    
+    #hashtag_medias = crawl_hashtag('nolimitindonesia', amount=1, session_json_path="session.json", save_raw=True)
+    hashtag_medias = crawl_reels('nolimitindonesia', amount=1, session_json_path="session.json", save_raw=True)
+
     #hashtag_medias_recent = cl.hashtag_medias_recent('nolimit')
     #with open("hashtag_new.json", "w") as f:
     #    json.dump(hashtag_medias, f, indent=4)

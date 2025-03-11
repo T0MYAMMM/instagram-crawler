@@ -27,6 +27,7 @@ class BaseWorker():
         self.conn_redis = Redis(host=REDIS[self.config]['host'],
                                 port=REDIS[self.config]['port'], decode_responses=True,
                                 password=REDIS[self.config]['password'])
+                                
 
     #def set_minio_client(self):
     #    self.minio_client = Minio(
